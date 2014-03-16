@@ -8,24 +8,57 @@
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".MainActivity" >
 
-    <!--
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="@string/hello_world" />
-	-->
-
     <EditText
-        android:id="@+id/editText1"
+        android:id="@+id/bill_amount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="24dp"
+        android:layout_marginTop="20dp"
         android:ems="10"
         android:inputType="numberDecimal" >
 
         <requestFocus />
     </EditText>
+
+    <ToggleButton
+        android:id="@+id/toggle_15"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/bill_amount"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:textOn="15%"
+        android:textOff="15%" />
+
+    <ToggleButton
+        android:id="@+id/toggle_20"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/toggle_15"
+        android:layout_alignBottom="@+id/toggle_15"
+        android:layout_toRightOf="@+id/toggle_15"
+        android:textOn="20%"
+        android:textOff="20%" />
+
+    <ToggleButton
+        android:id="@+id/toggle_10"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/toggle_15"
+        android:layout_alignBottom="@+id/toggle_15"
+        android:layout_toLeftOf="@+id/toggle_15"
+        android:textOn="10%"
+        android:textOff="10%" />
+
+    <TextView
+        android:id="@+id/tip_amount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/toggle_15"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp"
+        android:text="@string/tip_is"
+        android:textAppearance="?android:attr/textAppearanceLarge" />
 
 </RelativeLayout>
