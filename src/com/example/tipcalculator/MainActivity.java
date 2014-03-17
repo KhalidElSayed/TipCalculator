@@ -1,6 +1,5 @@
 package com.example.tipcalculator;
 
-import java.math.BigDecimal;
 import java.text.NumberFormat;
 
 import android.app.Activity;
@@ -8,52 +7,150 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.Menu;
-import android.widget.CompoundButton;
-import android.widget.CompoundButton.OnCheckedChangeListener;
+import android.view.View;
+import android.view.View.OnFocusChangeListener;
+import android.view.Window;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
-import android.widget.ToggleButton;
 
 public class MainActivity extends Activity {
-
-	EditText bill_amount;
-	TextView tip_amount;
-	ToggleButton toggle_10;
-	ToggleButton toggle_15;
-	ToggleButton toggle_20;
-	ToggleButton active_toggle;
+	
+	RadioGroup rg_1;
+	RadioGroup rg_2;
+	Boolean checkListenerSuppressed = false;
+	EditText et_tip_other;
+	RadioButton rb_10;
+	RadioButton rb_15;
+	RadioButton rb_20;
+	RadioButton rb_other;
+	EditText et_bill_amount;
+	TextView tv_tip_value;
+	TextView tv_total_value;
 		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+
+		// Hide title bar
+		requestWindowFeature(Window.FEATURE_NO_TITLE);
+
 		setContentView(R.layout.activity_main);
 		
-		bill_amount = (EditText) findViewById(R.id.bill_amount);	 
-		tip_amount = (TextView) findViewById(R.id.tip_amount);	 
-		toggle_10 = (ToggleButton) findViewById(R.id.toggle_10);
-		toggle_15 = (ToggleButton) findViewById(R.id.toggle_15);
-		toggle_20 = (ToggleButton) findViewById(R.id.toggle_20);
+		rg_1 =  (RadioGroup) findViewById(R.id.rg_1);
+		rg_2 =  (RadioGroup) findViewById(R.id.rg_2);
+		et_tip_other = (EditText) findViewById(R.id.et_tip_other);
+		rb_10 = (RadioButton) findViewById(R.id.rb_10);
+		rb_15 = (RadioButton) findViewById(R.id.rb_15);
+		rb_20 = (RadioButton) findViewById(R.id.rb_20);
+		rb_other = (RadioButton) findViewById(R.id.rb_other);
+		et_bill_amount = (EditText) findViewById(R.id.et_bill_amount);
+		tv_tip_value = (TextView) findViewById(R.id.tv_tip_value);
+		tv_total_value = (TextView) findViewById(R.id.tv_total_value);
 
-		toggle_10.setOnCheckedChangeListener(changeChecker);
-		toggle_15.setOnCheckedChangeListener(changeChecker);
-		toggle_20.setOnCheckedChangeListener(changeChecker);
+		rg_1.clearCheck();
+		rg_2.clearCheck();
 		
-		bill_amount.addTextChangedListener(new TextWatcher() {
-			@Override
-			public void afterTextChanged(Editable s) {
-				calculateTip();
-			}
-
-			@Override
-			public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-			}
-
-			@Override
-			public void onTextChanged(CharSequence s, int start, int before, int count) {
-			}
-		});
+		rg_1.setOnCheckedChangeListener(checkListener);
+		rg_2.setOnCheckedChangeListener(checkListener);
+		et_tip_other.setOnFocusChangeListener(focusListener);
+		et_tip_other.addTextChangedListener(textListener);
+		et_bill_amount.addTextChangedListener(textListener);
 		
-		setTipAmount(0);
+		calculateTip();
+	}
+
+	private OnCheckedChangeListener checkListener = new OnCheckedChangeListener() {
+
+		@Override
+		public void onCheckedChanged(RadioGroup group, int checkedId) {
+			if ( checkListenerSuppressed ) {
+				return;
+			}
+			checkListenerSuppressed = true;
+			if ( group == rg_1 ) {
+				rg_2.clearCheck();
+			} else if ( group == rg_2 ) {
+				rg_1.clearCheck();
+			}
+			if ( checkedId != -1 ) {
+				if ( checkedId == rb_other.getId() ) {
+					et_tip_other.requestFocus();
+				} else {
+					et_tip_other.clearFocus();
+				}
+			}
+			checkListenerSuppressed = false;
+			calculateTip();
+		}
+		
+	};
+	
+	private OnFocusChangeListener focusListener = new OnFocusChangeListener() {
+
+		@Override
+		public void onFocusChange(View v, boolean hasFocus) {
+			if ( checkListenerSuppressed ) {
+				return;
+			}
+			checkListenerSuppressed = true;
+			rg_1.clearCheck();
+			rb_other.setChecked(true);
+			checkListenerSuppressed = false;
+			calculateTip();
+		}
+		
+	};
+	
+	private TextWatcher textListener = new TextWatcher() {
+
+		@Override
+		public void afterTextChanged(Editable s) {
+			calculateTip();
+		}
+
+		@Override
+		public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+
+		@Override
+		public void onTextChanged(CharSequence s, int start, int before, int count) { }
+		
+	};
+	
+	private void calculateTip() {
+		Float tipAmount = getBillAmount() * getTip() / 100;
+		
+		tv_tip_value.setText( NumberFormat.getCurrencyInstance().format(tipAmount).replaceAll("\\.00", "") );
+		tv_total_value.setText( NumberFormat.getCurrencyInstance().format(tipAmount + getBillAmount()).replaceAll("\\.00", "") );
+	}
+	
+	private float getTip() {
+		if ( rb_10.isChecked() ) {
+			return 10;
+		}
+		if ( rb_15.isChecked() ) {
+			return 15;
+		}
+		if ( rb_20.isChecked() ) {
+			return 20;
+		}
+		if ( rb_other.isChecked() ) {
+			try {
+				return Float.valueOf(et_tip_other.getText().toString());
+			} catch (Exception e) { }
+		}
+		return 0;
+	}
+	
+	private float getBillAmount() {
+		try {
+			return Float.valueOf(et_bill_amount.getText().toString());
+		} catch (Exception e) {
+			return 0;
+		}
+		
 	}
 
 	@Override
@@ -62,61 +159,5 @@ public class MainActivity extends Activity {
 		getMenuInflater().inflate(R.menu.main, menu);
 		return true;
 	}
-	
-	private void calculateTip() {
-		if(active_toggle==null){
-			setTipAmount(0);
-			return;
-		}
-
-		float billAmount;
-		try {
-			billAmount = Float.valueOf(bill_amount.getText().toString());
-		} catch (Exception e) {
-			setTipAmount(0);
-			return;
-		}
-		
-		float tipPercentage = 0;
-		if ( active_toggle == toggle_10 ) {
-			tipPercentage = 10;			
-		} else if ( active_toggle == toggle_15 ) {
-			tipPercentage = 15;			
-		} else if ( active_toggle == toggle_20 ) {
-			tipPercentage = 20;			
-		}
-		
-		setTipAmount(billAmount * tipPercentage / 100);
-	}
-	
-	private void setTipAmount(float amount) {
-		tip_amount.setText(
-				getString(
-						R.string.tip_is,
-						NumberFormat.getCurrencyInstance().format(amount).replaceAll("\\.00", "")
-				)
-		);
-	}
-	
-	public static float round(float d, int decimalPlace) {
-        BigDecimal bd = new BigDecimal(Float.toString(d));
-        bd = bd.setScale(decimalPlace, BigDecimal.ROUND_HALF_UP);
-        return bd.floatValue();
-    }
-	
-	OnCheckedChangeListener changeChecker = new OnCheckedChangeListener() {
-		@Override
-	    public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-			if ( isChecked ) {
-				if ( active_toggle != null ) {
-					active_toggle.setChecked(false);
-				}
-				active_toggle = (ToggleButton) buttonView;
-			} else {
-				active_toggle = null;
-			}
-			calculateTip();
-		}
-	};
 
 }

@@ -9,56 +9,111 @@
     tools:context=".MainActivity" >
 
     <EditText
-        android:id="@+id/bill_amount"
-        android:layout_width="wrap_content"
+        android:id="@+id/et_bill_amount"
+        android:layout_width="150dp"
         android:layout_height="wrap_content"
-        android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:ems="10"
+        android:hint="@string/bill_amount"
         android:inputType="numberDecimal" >
 
         <requestFocus />
     </EditText>
 
-    <ToggleButton
-        android:id="@+id/toggle_15"
+    <RadioGroup
+        android:id="@+id/rg_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/bill_amount"
+        android:layout_below="@+id/et_bill_amount"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:textOn="15%"
-        android:textOff="15%" />
+        android:layout_marginTop="20dp" >
 
-    <ToggleButton
-        android:id="@+id/toggle_20"
+        <RadioButton
+            android:id="@+id/rb_10"
+            android:layout_marginRight="120dp"
+            android:text="10%" />
+
+        <RadioButton
+            android:id="@+id/rb_15"
+            android:layout_marginRight="120dp"
+            android:text="15%" />
+    </RadioGroup>
+
+    <RadioGroup
+        android:id="@+id/rg_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/toggle_15"
-        android:layout_alignBottom="@+id/toggle_15"
-        android:layout_toRightOf="@+id/toggle_15"
-        android:textOn="20%"
-        android:textOff="20%" />
-
-    <ToggleButton
-        android:id="@+id/toggle_10"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/toggle_15"
-        android:layout_alignBottom="@+id/toggle_15"
-        android:layout_toLeftOf="@+id/toggle_15"
-        android:textOn="10%"
-        android:textOff="10%" />
-
-    <TextView
-        android:id="@+id/tip_amount"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/toggle_15"
+        android:layout_below="@+id/et_bill_amount"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="20dp"
-        android:text="@string/tip_is"
-        android:textAppearance="?android:attr/textAppearanceLarge" />
+        android:layout_marginTop="20dp" >
+
+        <RadioButton
+            android:id="@+id/rb_20"
+            android:layout_marginLeft="120dp"
+            android:text="20%" />
+
+        <RadioButton
+            android:id="@+id/rb_other"
+            android:layout_marginLeft="120dp"
+            android:text="" />
+    </RadioGroup>
+
+    <EditText
+        android:id="@+id/et_tip_other"
+        android:layout_width="75dp"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/rg_2"
+        android:layout_alignLeft="@+id/rg_2"
+        android:layout_marginBottom="5dp"
+        android:layout_marginLeft="150dp"
+        android:background="#00000000"
+        android:hint="@string/tip_other"
+        android:inputType="numberDecimal" />
+
+    <TableLayout
+        android:id="@+id/tableLayout1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/rg_2"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="20dp" >
+
+        <TableRow
+            android:id="@+id/tableRow1"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Tip: "
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/tv_tip_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text=""
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+        </TableRow>
+
+        <TableRow
+            android:id="@+id/tableRow2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp" >
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Total: "
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+
+            <TextView
+                android:id="@+id/tv_total_value"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceLarge" />
+        </TableRow>
+    </TableLayout>
 
 </RelativeLayout>
