@@ -6,10 +6,10 @@
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".MainActivity" >
+    tools:context=".TipCalculatorActivity" >
 
     <EditText
-        android:id="@+id/et_bill_amount"
+        android:id="@+id/etBillAmount"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
@@ -20,49 +20,49 @@
     </EditText>
 
     <RadioGroup
-        android:id="@+id/rg_1"
+        android:id="@+id/rg1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/et_bill_amount"
+        android:layout_below="@+id/etBillAmount"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp" >
 
         <RadioButton
-            android:id="@+id/rb_10"
+            android:id="@+id/rb10"
             android:layout_marginRight="120dp"
             android:text="10%" />
 
         <RadioButton
-            android:id="@+id/rb_15"
+            android:id="@+id/rb15"
             android:layout_marginRight="120dp"
             android:text="15%" />
     </RadioGroup>
 
     <RadioGroup
-        android:id="@+id/rg_2"
+        android:id="@+id/rg2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/et_bill_amount"
+        android:layout_below="@+id/etBillAmount"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp" >
 
         <RadioButton
-            android:id="@+id/rb_20"
+            android:id="@+id/rb20"
             android:layout_marginLeft="120dp"
             android:text="20%" />
 
         <RadioButton
-            android:id="@+id/rb_other"
+            android:id="@+id/rbOther"
             android:layout_marginLeft="120dp"
             android:text="" />
     </RadioGroup>
 
     <EditText
-        android:id="@+id/et_tip_other"
+        android:id="@+id/etTipOther"
         android:layout_width="75dp"
         android:layout_height="wrap_content"
-        android:layout_alignBottom="@+id/rg_2"
-        android:layout_alignLeft="@+id/rg_2"
+        android:layout_alignBottom="@+id/rg2"
+        android:layout_alignLeft="@+id/rg2"
         android:layout_marginBottom="5dp"
         android:layout_marginLeft="150dp"
         android:background="#00000000"
@@ -70,26 +70,24 @@
         android:inputType="numberDecimal" />
 
     <TableLayout
-        android:id="@+id/tableLayout1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/rg_2"
+        android:layout_below="@+id/rg2"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="20dp" >
 
         <TableRow
-            android:id="@+id/tableRow1"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content" >
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Tip: "
+                android:text="@string/tip_amount"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
-                android:id="@+id/tv_tip_value"
+                android:id="@+id/tvTipValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text=""
@@ -97,7 +95,6 @@
         </TableRow>
 
         <TableRow
-            android:id="@+id/tableRow2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp" >
@@ -105,11 +102,11 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Total: "
+                android:text="@string/total_amount"
                 android:textAppearance="?android:attr/textAppearanceLarge" />
 
             <TextView
-                android:id="@+id/tv_total_value"
+                android:id="@+id/tvTotalValue"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textAppearance="?android:attr/textAppearanceLarge" />

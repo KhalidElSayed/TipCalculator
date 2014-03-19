@@ -16,19 +16,19 @@ import android.widget.RadioGroup;
 import android.widget.RadioGroup.OnCheckedChangeListener;
 import android.widget.TextView;
 
-public class MainActivity extends Activity {
+public class TipCalculatorActivity extends Activity {
 	
-	RadioGroup rg_1;
-	RadioGroup rg_2;
+	RadioGroup rg1;
+	RadioGroup rg2;
+	EditText etTipOther;
+	RadioButton rb10;
+	RadioButton rb15;
+	RadioButton rb20;
+	RadioButton rbOther;
+	EditText etBillAmount;
+	TextView tvTipValue;
+	TextView tvTotalValue;
 	Boolean checkListenerSuppressed = false;
-	EditText et_tip_other;
-	RadioButton rb_10;
-	RadioButton rb_15;
-	RadioButton rb_20;
-	RadioButton rb_other;
-	EditText et_bill_amount;
-	TextView tv_tip_value;
-	TextView tv_total_value;
 		
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -37,27 +37,27 @@ public class MainActivity extends Activity {
 		// Hide title bar
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 
-		setContentView(R.layout.activity_main);
+		setContentView(R.layout.activity_tip_calculator);
 		
-		rg_1 =  (RadioGroup) findViewById(R.id.rg_1);
-		rg_2 =  (RadioGroup) findViewById(R.id.rg_2);
-		et_tip_other = (EditText) findViewById(R.id.et_tip_other);
-		rb_10 = (RadioButton) findViewById(R.id.rb_10);
-		rb_15 = (RadioButton) findViewById(R.id.rb_15);
-		rb_20 = (RadioButton) findViewById(R.id.rb_20);
-		rb_other = (RadioButton) findViewById(R.id.rb_other);
-		et_bill_amount = (EditText) findViewById(R.id.et_bill_amount);
-		tv_tip_value = (TextView) findViewById(R.id.tv_tip_value);
-		tv_total_value = (TextView) findViewById(R.id.tv_total_value);
+		rg1 =  (RadioGroup) findViewById(R.id.rg1);
+		rg2 =  (RadioGroup) findViewById(R.id.rg2);
+		etTipOther = (EditText) findViewById(R.id.etTipOther);
+		rb10 = (RadioButton) findViewById(R.id.rb10);
+		rb15 = (RadioButton) findViewById(R.id.rb15);
+		rb20 = (RadioButton) findViewById(R.id.rb20);
+		rbOther = (RadioButton) findViewById(R.id.rbOther);
+		etBillAmount = (EditText) findViewById(R.id.etBillAmount);
+		tvTipValue = (TextView) findViewById(R.id.tvTipValue);
+		tvTotalValue = (TextView) findViewById(R.id.tvTotalValue);
 
-		rg_1.clearCheck();
-		rg_2.clearCheck();
+		rg1.clearCheck();
+		rg2.clearCheck();
 		
-		rg_1.setOnCheckedChangeListener(checkListener);
-		rg_2.setOnCheckedChangeListener(checkListener);
-		et_tip_other.setOnFocusChangeListener(focusListener);
-		et_tip_other.addTextChangedListener(textListener);
-		et_bill_amount.addTextChangedListener(textListener);
+		rg1.setOnCheckedChangeListener(checkListener);
+		rg2.setOnCheckedChangeListener(checkListener);
+		etTipOther.setOnFocusChangeListener(focusListener);
+		etTipOther.addTextChangedListener(textListener);
+		etBillAmount.addTextChangedListener(textListener);
 		
 		calculateTip();
 	}
@@ -70,16 +70,16 @@ public class MainActivity extends Activity {
 				return;
 			}
 			checkListenerSuppressed = true;
-			if ( group == rg_1 ) {
-				rg_2.clearCheck();
-			} else if ( group == rg_2 ) {
-				rg_1.clearCheck();
+			if ( group == rg1 ) {
+				rg2.clearCheck();
+			} else if ( group == rg2 ) {
+				rg1.clearCheck();
 			}
 			if ( checkedId != -1 ) {
-				if ( checkedId == rb_other.getId() ) {
-					et_tip_other.requestFocus();
+				if ( checkedId == rbOther.getId() ) {
+					etTipOther.requestFocus();
 				} else {
-					et_tip_other.clearFocus();
+					etTipOther.clearFocus();
 				}
 			}
 			checkListenerSuppressed = false;
@@ -96,8 +96,8 @@ public class MainActivity extends Activity {
 				return;
 			}
 			checkListenerSuppressed = true;
-			rg_1.clearCheck();
-			rb_other.setChecked(true);
+			rg1.clearCheck();
+			rbOther.setChecked(true);
 			checkListenerSuppressed = false;
 			calculateTip();
 		}
@@ -122,23 +122,23 @@ public class MainActivity extends Activity {
 	private void calculateTip() {
 		Float tipAmount = getBillAmount() * getTip() / 100;
 		
-		tv_tip_value.setText( NumberFormat.getCurrencyInstance().format(tipAmount).replaceAll("\\.00", "") );
-		tv_total_value.setText( NumberFormat.getCurrencyInstance().format(tipAmount + getBillAmount()).replaceAll("\\.00", "") );
+		tvTipValue.setText( NumberFormat.getCurrencyInstance().format(tipAmount).replaceAll("\\.00", "") );
+		tvTotalValue.setText( NumberFormat.getCurrencyInstance().format(tipAmount + getBillAmount()).replaceAll("\\.00", "") );
 	}
 	
 	private float getTip() {
-		if ( rb_10.isChecked() ) {
+		if ( rb10.isChecked() ) {
 			return 10;
 		}
-		if ( rb_15.isChecked() ) {
+		if ( rb15.isChecked() ) {
 			return 15;
 		}
-		if ( rb_20.isChecked() ) {
+		if ( rb20.isChecked() ) {
 			return 20;
 		}
-		if ( rb_other.isChecked() ) {
+		if ( rbOther.isChecked() ) {
 			try {
-				return Float.valueOf(et_tip_other.getText().toString());
+				return Float.valueOf(etTipOther.getText().toString());
 			} catch (Exception e) { }
 		}
 		return 0;
@@ -146,7 +146,7 @@ public class MainActivity extends Activity {
 	
 	private float getBillAmount() {
 		try {
-			return Float.valueOf(et_bill_amount.getText().toString());
+			return Float.valueOf(etBillAmount.getText().toString());
 		} catch (Exception e) {
 			return 0;
 		}
